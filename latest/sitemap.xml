@@ -1789,7 +1789,7 @@
          <lastmod>2026-03-13</lastmod>
     </url>
     <url>
-         <loc>https://docs.ag2.ai/latest/docs/blog/2026/03/05/intelligent-agent-handoffs/</loc>
+         <loc>https://docs.ag2.ai/latest/docs/blog/2026/03/05/Intelligent-Agent-Handoffs/</loc>
          <lastmod>2026-03-13</lastmod>
     </url>
     <url>
@@ -3109,7 +3109,43 @@
          <lastmod>2026-03-13</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/playground/</loc>
+         <lastmod>2026-03-13</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/multi-agent/</loc>
+         <lastmod>2026-03-13</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/orchestration/</loc>
+         <lastmod>2026-03-13</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/interactive/</loc>
+         <lastmod>2026-03-13</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/blog/category/ag-ui/</loc>
+         <lastmod>2026-03-13</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/handoffs/</loc>
+         <lastmod>2026-03-13</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/group-chat/</loc>
+         <lastmod>2026-03-13</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/research/</loc>
+         <lastmod>2026-03-13</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/gpt-researcher/</loc>
+         <lastmod>2026-03-13</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/tools/</loc>
          <lastmod>2026-03-13</lastmod>
     </url>
     <url>
@@ -3121,7 +3157,7 @@
          <lastmod>2026-03-13</lastmod>
     </url>
     <url>
-         <loc>https://docs.ag2.ai/latest/docs/blog/category/tools/</loc>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/ui/</loc>
          <lastmod>2026-03-13</lastmod>
     </url>
     <url>
@@ -3134,10 +3170,6 @@
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/blog/category/observability/</loc>
-         <lastmod>2026-03-13</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/blog/category/multi-agent/</loc>
          <lastmod>2026-03-13</lastmod>
     </url>
     <url>
@@ -3269,10 +3301,6 @@
          <lastmod>2026-03-13</lastmod>
     </url>
     <url>
-         <loc>https://docs.ag2.ai/latest/docs/blog/category/research/</loc>
-         <lastmod>2026-03-13</lastmod>
-    </url>
-    <url>
          <loc>https://docs.ag2.ai/latest/docs/blog/category/ag2-agents/</loc>
          <lastmod>2026-03-13</lastmod>
     </url>
@@ -3350,6 +3378,10 @@
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/blog/archive/2023/page/2/</loc>
+         <lastmod>2026-03-13</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/research/page/2/</loc>
          <lastmod>2026-03-13</lastmod>
     </url>
     <url>
