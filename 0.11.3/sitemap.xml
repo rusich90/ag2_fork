@@ -637,6 +637,10 @@
          <lastmod>2026-03-17</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/context/Stream/</loc>
+         <lastmod>2026-03-17</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/base/BaseEvent/</loc>
          <lastmod>2026-03-17</lastmod>
     </url>
@@ -649,7 +653,35 @@
          <lastmod>2026-03-17</lastmod>
     </url>
     <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/types/ClientToolCall/</loc>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/tool_events/ClientToolCallEvent/</loc>
+         <lastmod>2026-03-17</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/tool_events/ToolCallEvent/</loc>
+         <lastmod>2026-03-17</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/tool_events/ToolCallsEvent/</loc>
+         <lastmod>2026-03-17</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/tool_events/ToolErrorEvent/</loc>
+         <lastmod>2026-03-17</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/tool_events/ToolNotFoundEvent/</loc>
+         <lastmod>2026-03-17</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/tool_events/ToolResult/</loc>
+         <lastmod>2026-03-17</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/tool_events/ToolResultEvent/</loc>
+         <lastmod>2026-03-17</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/tool_events/ToolResultsEvent/</loc>
          <lastmod>2026-03-17</lastmod>
     </url>
     <url>
@@ -678,30 +710,6 @@
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/types/ModelResponse/</loc>
-         <lastmod>2026-03-17</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/types/ToolCall/</loc>
-         <lastmod>2026-03-17</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/types/ToolCalls/</loc>
-         <lastmod>2026-03-17</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/types/ToolError/</loc>
-         <lastmod>2026-03-17</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/types/ToolNotFoundEvent/</loc>
-         <lastmod>2026-03-17</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/types/ToolResult/</loc>
-         <lastmod>2026-03-17</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/types/ToolResults/</loc>
          <lastmod>2026-03-17</lastmod>
     </url>
     <url>
