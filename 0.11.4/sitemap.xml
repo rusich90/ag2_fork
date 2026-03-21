@@ -737,6 +737,22 @@
          <lastmod>2026-03-21</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/response/callable/response_schema/</loc>
+         <lastmod>2026-03-21</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/response/prompted/PromptedSchema/</loc>
+         <lastmod>2026-03-21</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/response/proto/ResponseProto/</loc>
+         <lastmod>2026-03-21</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/response/schema/ResponseSchema/</loc>
+         <lastmod>2026-03-21</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/stream/MemoryStream/</loc>
          <lastmod>2026-03-21</lastmod>
     </url>
@@ -1798,6 +1814,10 @@
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/beta/roadmap/</loc>
+         <lastmod>2026-03-21</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/beta/structured_output/</loc>
          <lastmod>2026-03-21</lastmod>
     </url>
     <url>
