@@ -733,6 +733,10 @@
          <lastmod>2026-03-21</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/middleware/builtin/telemetry/TelemetryMiddleware/</loc>
+         <lastmod>2026-03-21</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/middleware/builtin/token_limiter/TokenLimiter/</loc>
          <lastmod>2026-03-21</lastmod>
     </url>
@@ -1825,6 +1829,10 @@
          <lastmod>2026-03-21</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/beta/telemetry/</loc>
+         <lastmod>2026-03-21</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/beta/testing/</loc>
          <lastmod>2026-03-21</lastmod>
     </url>
@@ -2094,6 +2102,10 @@
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/blog/2026/03/16/AG2-Beta/</loc>
+         <lastmod>2026-03-21</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/2026/03/19/Arcade/</loc>
          <lastmod>2026-03-21</lastmod>
     </url>
     <url>
@@ -3421,6 +3433,26 @@
          <lastmod>2026-03-21</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/ag2/</loc>
+         <lastmod>2026-03-21</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/connectors/</loc>
+         <lastmod>2026-03-21</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/mcp/</loc>
+         <lastmod>2026-03-21</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/arcade/</loc>
+         <lastmod>2026-03-21</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/blog/category/gmail/</loc>
+         <lastmod>2026-03-21</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/blog/category/ag2-beta/</loc>
          <lastmod>2026-03-21</lastmod>
     </url>
@@ -3525,10 +3557,6 @@
          <lastmod>2026-03-21</lastmod>
     </url>
     <url>
-         <loc>https://docs.ag2.ai/latest/docs/blog/category/mcp/</loc>
-         <lastmod>2026-03-21</lastmod>
-    </url>
-    <url>
          <loc>https://docs.ag2.ai/latest/docs/blog/category/session-management/</loc>
          <lastmod>2026-03-21</lastmod>
     </url>
@@ -3614,10 +3642,6 @@
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/blog/category/react/</loc>
-         <lastmod>2026-03-21</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/blog/category/ag2/</loc>
          <lastmod>2026-03-21</lastmod>
     </url>
     <url>
