@@ -355,6 +355,98 @@ class TestRedisStream:
         assert len(tool_events) == 1
         assert tool_events[0].name == "func1"
 
+    async def test_reentrant_send_no_deadlock(self, redis_stream):
+        """Subscriber that sends an event and waits for the response must not deadlock.
+
+        tool-call deadlock pattern flow:
+        1. Subscriber receives ModelRequest
+        2. Subscriber sends ModelMessage and waits for a ToolCallEvent response
+        3. Another subscriber handles ModelMessage by sending ToolCallEvent
+        4. If dispatch is serialized through a single listener task, step 3
+           can't fire until step 2 finishes — but step 2 is waiting for step 3.
+
+        With local dispatch (MemoryStream.send), step 3 executes inline
+        during step 2's send() call, so the response arrives immediately.
+        """
+        stream = redis_stream()
+        ctx = Context(stream)
+        response_received = asyncio.Event()
+        tool_result = []
+
+        async def client_subscriber(ev):
+            """Simulates _call_client: sends a request and waits for response."""
+            if isinstance(ev, ModelRequest):
+                # Send response and wait for the tool result to come back
+                await stream.send(ModelMessage(content="need_tool"), ctx)
+                # Wait for the ToolCallEvent that tool_executor will send
+                await asyncio.wait_for(response_received.wait(), timeout=3)
+
+        async def tool_executor(ev):
+            """Simulates tool executor: fires tool result when it sees ModelMessage."""
+            if isinstance(ev, ModelMessage) and ev.content == "need_tool":
+                await stream.send(ToolCallEvent(name="greet", arguments="Mark"), ctx)
+
+        async def result_collector(ev):
+            """Signals when the tool result arrives."""
+            if isinstance(ev, ToolCallEvent):
+                tool_result.append(ev)
+                response_received.set()
+
+        stream.subscribe(client_subscriber)
+        stream.subscribe(tool_executor)
+        stream.subscribe(result_collector)
+
+        # This should complete without deadlock
+        await asyncio.wait_for(
+            stream.send(ModelRequest(content="request"), ctx),
+            timeout=5,
+        )
+        await asyncio.sleep(0.2)
+
+        # The tool result was received — no deadlock
+        assert len(tool_result) == 1
+        assert tool_result[0].name == "greet"
+
+    async def test_deeply_nested_send(self, redis_stream):
+        """Three levels of nested send() with waits — simulates tool call chain."""
+        stream = redis_stream()
+        ctx = Context(stream)
+        received = []
+        tool_done = asyncio.Event()
+        final_done = asyncio.Event()
+
+        async def level1(ev):
+            if isinstance(ev, ModelRequest):
+                received.append(("L1", ev))
+                await stream.send(ToolCallEvent(name="tool1", arguments="a"), ctx)
+                await asyncio.wait_for(tool_done.wait(), timeout=3)
+
+        async def level2(ev):
+            if isinstance(ev, ToolCallEvent):
+                received.append(("L2", ev))
+                await stream.send(ModelMessage(content="done"), ctx)
+                tool_done.set()
+
+        async def level3(ev):
+            if isinstance(ev, ModelMessage) and ev.content == "done":
+                received.append(("L3", ev))
+                final_done.set()
+
+        stream.subscribe(level1)
+        stream.subscribe(level2)
+        stream.subscribe(level3)
+
+        await asyncio.wait_for(
+            stream.send(ModelRequest(content="start"), ctx),
+            timeout=5,
+        )
+        await asyncio.wait_for(final_done.wait(), timeout=5)
+
+        assert len(received) == 3
+        assert received[0][0] == "L1"
+        assert received[1][0] == "L2"
+        assert received[2][0] == "L3"
+
     async def test_multiple_subscribers_same_instance(self, redis_stream):
         """Multiple subscribers on the same stream all receive events."""
         stream = redis_stream()

@@ -4,6 +4,7 @@
 
 import asyncio
 import contextlib
+import json
 from uuid import uuid4
 
 from autogen.beta.context import Context, StreamId
@@ -24,9 +25,11 @@ class RedisStream(MemoryStream):
     All events flow through Redis Pub/Sub, ensuring subscribers across processes
     and machines receive every event. History is persisted to Redis.
 
-    Event flow:
-        send() → persist to Redis + publish to Pub/Sub channel
-        listener → receives from Pub/Sub → dispatches to local subscribers
+    Event flow (local):
+        send() → dispatch to local subscribers + persist to Redis + publish to Pub/Sub
+
+    Event flow (cross-process):
+        listener → receives from Pub/Sub → skips own messages → dispatches to local subscribers
 
     Args:
         redis_url: Redis connection URL.
@@ -69,7 +72,11 @@ class RedisStream(MemoryStream):
             self._listener_task = asyncio.create_task(self._listen())
 
     async def _listen(self) -> None:
-        """Listen for events on the Redis Pub/Sub channel and dispatch to local subscribers."""
+        """Listen for events on the Redis Pub/Sub channel and dispatch to local subscribers.
+
+        Skips messages published by this instance (already dispatched locally in send()).
+        Only dispatches messages from other instances (cross-process events).
+        """
         pubsub = self._pubsub_redis.pubsub()
         await pubsub.subscribe(self._channel)
         self._listener_ready.set()
@@ -77,7 +84,16 @@ class RedisStream(MemoryStream):
             async for message in pubsub.listen():
                 if message["type"] != "message":
                     continue
-                event = deserialize(message["data"], self._serializer)
+
+                # Extract sender instance_id from the envelope
+                raw = message["data"]
+                sender_id, event_data = self._unwrap_envelope(raw)
+
+                # Skip events from this instance -- already dispatched in send()
+                if sender_id == self._instance_id:
+                    continue
+
+                event = deserialize(event_data, self._serializer)
                 if isinstance(event, BaseEvent):
                     await super().send(event, Context(self))
         except asyncio.CancelledError:
@@ -86,14 +102,34 @@ class RedisStream(MemoryStream):
             await pubsub.unsubscribe(self._channel)
             await pubsub.aclose()
 
+    def _wrap_envelope(self, event_bytes: bytes) -> bytes:
+        """Wrap serialized event with instance_id for origin tracking."""
+        envelope = {"instance_id": self._instance_id, "data": event_bytes.decode("latin-1")}
+        return json.dumps(envelope).encode()
+
+    def _unwrap_envelope(self, raw: bytes) -> tuple[str, bytes]:
+        """Unwrap envelope to get (instance_id, event_bytes)."""
+        try:
+            envelope = json.loads(raw)
+            return envelope["instance_id"], envelope["data"].encode("latin-1")
+        except (json.JSONDecodeError, KeyError):
+            # Legacy message without envelope -- treat as foreign
+            return "", raw
+
     async def send(self, event: BaseEvent, context: Context) -> None:
-        """Persist the event and publish to Redis for all listeners (including self)."""
+        """Persist to Redis, dispatch locally, and publish for cross-process consumers."""
         self._ensure_listener()
         await self._listener_ready.wait()
-        # Persist once — only the sender writes to history
+
+        # Persist to Redis first so subscribers read history during dispatch
         await self._redis_storage.save_event(event, context)
-        # Publish to Redis — all listeners dispatch to their local subscribers
-        await self._publish_redis.publish(self._channel, serialize(event, self._serializer))
+
+        # Dispatch to local subscribers
+        await super().send(event, context)
+
+        # Publish to Redis pub/sub for cross-process listeners
+        event_bytes = serialize(event, self._serializer)
+        await self._publish_redis.publish(self._channel, self._wrap_envelope(event_bytes))
 
     async def close(self) -> None:
         if self._listener_task and not self._listener_task.done():
