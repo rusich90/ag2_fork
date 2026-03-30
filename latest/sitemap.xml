@@ -837,6 +837,10 @@
          <lastmod>2026-03-30</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/builtin/image_generation/ImageGenerationTool/</loc>
+         <lastmod>2026-03-30</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/builtin/memory/MemoryTool/</loc>
          <lastmod>2026-03-30</lastmod>
     </url>
