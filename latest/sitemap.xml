@@ -813,6 +813,10 @@
          <lastmod>2026-04-03</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/middleware/builtin/tools/approval/approval_required/</loc>
+         <lastmod>2026-04-03</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/response/callable/response_schema/</loc>
          <lastmod>2026-04-03</lastmod>
     </url>
@@ -1973,7 +1977,15 @@
          <lastmod>2026-04-03</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/beta/tools/approval_required/</loc>
+         <lastmod>2026-04-03</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/beta/tools/builtin_tools/</loc>
+         <lastmod>2026-04-03</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/beta/tools/tool_middleware/</loc>
          <lastmod>2026-04-03</lastmod>
     </url>
     <url>
