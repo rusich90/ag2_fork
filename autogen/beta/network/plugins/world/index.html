@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AG2 Network World</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { overflow: hidden; background: #2a2520; font-family: 'Segoe UI', system-ui, sans-serif; }
+  canvas { display: block; }
+
+  /* Labels */
+  .label {
+    color: rgba(255,255,255,0.8);
+    font-size: 11px;
+    font-weight: 600;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+  .label-island {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  /* Tool call popup */
+  .tool-popup {
+    position: absolute;
+    background: rgba(30,28,24,0.92);
+    border: 1px solid rgba(212,165,74,0.5);
+    border-radius: 8px;
+    padding: 6px 12px;
+    color: #D4A54A;
+    font-size: 11px;
+    font-family: 'SF Mono', 'Consolas', monospace;
+    pointer-events: none;
+    transition: opacity 0.4s, transform 0.4s;
+    white-space: nowrap;
+    z-index: 100;
+  }
+  .tool-popup.result {
+    border-color: rgba(91,163,160,0.5);
+    color: #5BA3A0;
+  }
+
+  /* Event log */
+  #event-log {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    width: 420px;
+    max-height: 280px;
+    overflow-y: auto;
+    background: rgba(30,28,24,0.88);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 12px;
+    font-family: 'SF Mono', 'Consolas', monospace;
+    font-size: 11px;
+    color: #c0b8a8;
+    backdrop-filter: blur(8px);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.1) transparent;
+    z-index: 100;
+    pointer-events: auto;
+    user-select: text;
+  }
+  #event-log::-webkit-scrollbar { width: 4px; }
+  #event-log::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+  .log-entry { margin-bottom: 3px; line-height: 1.5; }
+  .log-time { color: #666; }
+  .log-delegation { color: #D4A54A; }
+  .log-result { color: #5BA3A0; }
+  .log-tool { color: #B8A060; }
+  .log-call { color: #C0574F; font-weight: 700; }
+  .log-fire { color: #D08030; font-weight: 700; }
+  .log-complete { color: #7A9A6E; font-weight: 700; }
+
+  /* Status bar */
+  #status {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    background: rgba(30,28,24,0.88);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 12px 18px;
+    color: #c0b8a8;
+    font-size: 12px;
+    z-index: 100;
+    pointer-events: auto;
+    backdrop-filter: blur(8px);
+  }
+  #status h2 {
+    font-size: 14px;
+    color: #e8dcc8;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+  }
+  #status .sub { color: #888; font-size: 11px; }
+
+  /* Speech bubble */
+  .speech-bubble {
+    position: absolute;
+    background: rgba(40,36,30,0.94);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 8px 12px;
+    color: #e0d8c8;
+    font-size: 11px;
+    max-width: 220px;
+    pointer-events: none;
+    z-index: 90;
+    line-height: 1.4;
+    transition: opacity 0.5s;
+  }
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 20px;
+    width: 12px;
+    height: 6px;
+    background: rgba(40,36,30,0.94);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+</style>
+</head>
+<body>
+
+<div id="status">
+  <h2>AG2 Network World</h2>
+  <div class="sub">Beta Network Visualization</div>
+</div>
+
+<div id="event-log"></div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+window.addEventListener('error', e => console.error('GLOBAL ERROR:', e.message, e.filename, e.lineno));
+window.addEventListener('unhandledrejection', e => console.error('UNHANDLED REJECTION:', e.reason));
+
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+console.log('Three.js loaded, version:', THREE.REVISION);
+
+// ============================================================
+// Constants
+// ============================================================
+
+const COLORS = {
+  sky: 0x3a3430,
+  fog: 0x3a3430,
+  ambient: 0xFFF8F0,
+  sun: 0xFFE8C8,
+  grass: 0x6A8A5E,
+  soil: 0x7B5F3E,
+  stone: 0x8A8A7A,
+  envelopeRequest: 0xD4A54A,
+  envelopeResult: 0x5BA3A0,
+  rejection: 0xC0574F,
+  discovery: 0x7AB0D4,
+  topic: 0x9B8FC0,
+};
+
+// ============================================================
+// Scene setup
+// ============================================================
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(COLORS.sky);
+scene.fog = new THREE.FogExp2(COLORS.fog, 0.018);
+
+const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 200);
+camera.position.set(2, 16, 14);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(innerWidth, innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
+document.body.appendChild(renderer.domElement);
+
+// Lights
+const ambientLight = new THREE.AmbientLight(COLORS.ambient, 0.5);
+scene.add(ambientLight);
+
+const sunLight = new THREE.DirectionalLight(COLORS.sun, 1.2);
+sunLight.position.set(8, 15, 10);
+sunLight.castShadow = true;
+sunLight.shadow.mapSize.set(2048, 2048);
+sunLight.shadow.camera.left = -20;
+sunLight.shadow.camera.right = 20;
+sunLight.shadow.camera.top = 20;
+sunLight.shadow.camera.bottom = -20;
+scene.add(sunLight);
+
+const fillLight = new THREE.DirectionalLight(0xA0B0C0, 0.3);
+fillLight.position.set(-5, 8, -8);
+scene.add(fillLight);
+
+// CSS2D label renderer
+const labelRenderer = new CSS2DRenderer();
+labelRenderer.setSize(innerWidth, innerHeight);
+labelRenderer.domElement.style.position = 'absolute';
+labelRenderer.domElement.style.top = '0px';
+labelRenderer.domElement.style.pointerEvents = 'none';
+document.body.appendChild(labelRenderer.domElement);
+
+// Controls — attach to labelRenderer so it's on top
+const controls = new OrbitControls(camera, labelRenderer.domElement);
+labelRenderer.domElement.style.pointerEvents = 'auto';
+controls.enableDamping = true;
+controls.dampingFactor = 0.08;
+controls.target.set(2, 0.5, -1);
+controls.minDistance = 8;
+controls.maxDistance = 40;
+controls.maxPolarAngle = Math.PI * 0.45;
+
+// Resize
+window.addEventListener('resize', () => {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+  labelRenderer.setSize(innerWidth, innerHeight);
+});
+
+// ============================================================
+// Geometry builders
+// ============================================================
+
+function createIsland(radius, color) {
+  const group = new THREE.Group();
+
+  // Top surface — irregular disc
+  const topGeo = new THREE.CylinderGeometry(radius, radius * 0.85, 0.15, 8, 1);
+  // Displace vertices for organic feel
+  const pos = topGeo.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i);
+    const z = pos.getZ(i);
+    const dist = Math.sqrt(x * x + z * z);
+    if (dist > 0.1) {
+      const noise = (Math.sin(x * 3.7 + z * 2.3) * 0.15 + Math.cos(z * 4.1) * 0.1);
+      pos.setY(i, pos.getY(i) + noise);
+      pos.setX(i, x + Math.sin(i * 1.3) * 0.15);
+      pos.setZ(i, z + Math.cos(i * 0.7) * 0.15);
+    }
+  }
+  topGeo.computeVertexNormals();
+  const topMat = new THREE.MeshLambertMaterial({ color: COLORS.grass, flatShading: true });
+  const top = new THREE.Mesh(topGeo, topMat);
+  top.receiveShadow = true;
+  group.add(top);
+
+  // Bottom — tapered rock
+  const bottomGeo = new THREE.CylinderGeometry(radius * 0.85, radius * 0.3, 1.2, 7, 2);
+  const bPos = bottomGeo.attributes.position;
+  for (let i = 0; i < bPos.count; i++) {
+    const x = bPos.getX(i);
+    const z = bPos.getZ(i);
+    const dist = Math.sqrt(x * x + z * z);
+    if (dist > 0.1) {
+      bPos.setX(i, x + Math.sin(i * 2.1) * 0.12);
+      bPos.setZ(i, z + Math.cos(i * 1.7) * 0.12);
+    }
+  }
+  bottomGeo.computeVertexNormals();
+  const bottomMat = new THREE.MeshLambertMaterial({ color: COLORS.soil, flatShading: true });
+  const bottom = new THREE.Mesh(bottomGeo, bottomMat);
+  bottom.position.y = -0.65;
+  bottom.receiveShadow = true;
+  group.add(bottom);
+
+  // Some rocks on the edge
+  for (let i = 0; i < 5; i++) {
+    const angle = (i / 5) * Math.PI * 2 + Math.random() * 0.5;
+    const r = radius * (0.7 + Math.random() * 0.25);
+    const rockGeo = new THREE.DodecahedronGeometry(0.15 + Math.random() * 0.15, 0);
+    const rockMat = new THREE.MeshLambertMaterial({ color: COLORS.stone, flatShading: true });
+    const rock = new THREE.Mesh(rockGeo, rockMat);
+    rock.position.set(Math.cos(angle) * r, 0.05, Math.sin(angle) * r);
+    rock.rotation.set(Math.random(), Math.random(), Math.random());
+    rock.castShadow = true;
+    group.add(rock);
+  }
+
+  // Small trees
+  for (let i = 0; i < 3; i++) {
+    const angle = (i / 3) * Math.PI * 2 + 0.8;
+    const r = radius * (0.4 + Math.random() * 0.3);
+    const tree = createTree();
+    tree.position.set(Math.cos(angle) * r, 0.08, Math.sin(angle) * r);
+    tree.scale.setScalar(0.6 + Math.random() * 0.4);
+    group.add(tree);
+  }
+
+  return group;
+}
+
+function createTree() {
+  const group = new THREE.Group();
+  const trunkGeo = new THREE.CylinderGeometry(0.04, 0.06, 0.35, 4);
+  const trunkMat = new THREE.MeshLambertMaterial({ color: 0x6B4F3A, flatShading: true });
+  const trunk = new THREE.Mesh(trunkGeo, trunkMat);
+  trunk.position.y = 0.17;
+  trunk.castShadow = true;
+  group.add(trunk);
+
+  const leavesGeo = new THREE.ConeGeometry(0.22, 0.45, 5);
+  const leavesMat = new THREE.MeshLambertMaterial({ color: 0x4A7A3E, flatShading: true });
+  const leaves = new THREE.Mesh(leavesGeo, leavesMat);
+  leaves.position.y = 0.5;
+  leaves.castShadow = true;
+  group.add(leaves);
+
+  const topGeo = new THREE.ConeGeometry(0.15, 0.3, 5);
+  const topLeaves = new THREE.Mesh(topGeo, leavesMat);
+  topLeaves.position.y = 0.72;
+  topLeaves.castShadow = true;
+  group.add(topLeaves);
+
+  return group;
+}
+
+function createHubTower(color) {
+  const group = new THREE.Group();
+
+  // Base
+  const baseGeo = new THREE.CylinderGeometry(0.5, 0.55, 0.15, 6);
+  const baseMat = new THREE.MeshLambertMaterial({ color: 0x6A6050, flatShading: true });
+  const base = new THREE.Mesh(baseGeo, baseMat);
+  base.position.y = 0.08;
+  base.castShadow = true;
+  group.add(base);
+
+  // Tower body
+  const bodyGeo = new THREE.CylinderGeometry(0.32, 0.4, 1.4, 6);
+  const bodyMat = new THREE.MeshLambertMaterial({ color: new THREE.Color(color), flatShading: true });
+  const body = new THREE.Mesh(bodyGeo, bodyMat);
+  body.position.y = 0.85;
+  body.castShadow = true;
+  group.add(body);
+
+  // Beacon top
+  const beaconGeo = new THREE.ConeGeometry(0.25, 0.4, 6);
+  const beaconMat = new THREE.MeshLambertMaterial({ color: 0xD0C8A0, flatShading: true });
+  const beacon = new THREE.Mesh(beaconGeo, beaconMat);
+  beacon.position.y = 1.75;
+  beacon.castShadow = true;
+  group.add(beacon);
+
+  // Glow ring (discovery ring)
+  const ringGeo = new THREE.TorusGeometry(0.55, 0.03, 4, 8);
+  const ringMat = new THREE.MeshBasicMaterial({ color: COLORS.discovery, transparent: true, opacity: 0.4 });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.position.y = 1.0;
+  ring.rotation.x = Math.PI / 2;
+  group.add(ring);
+  group.userData.ring = ring;
+
+  // Point light at beacon
+  const glow = new THREE.PointLight(new THREE.Color(color), 0.6, 5);
+  glow.position.y = 1.8;
+  group.add(glow);
+  group.userData.glow = glow;
+
+  return group;
+}
+
+function createAgent(color) {
+  const group = new THREE.Group();
+  const col = new THREE.Color(color);
+
+  // Body
+  const bodyGeo = new THREE.CylinderGeometry(0.14, 0.18, 0.45, 5);
+  const bodyMat = new THREE.MeshLambertMaterial({ color: col, flatShading: true });
+  const body = new THREE.Mesh(bodyGeo, bodyMat);
+  body.position.y = 0.35;
+  body.castShadow = true;
+  group.add(body);
+
+  // Head
+  const headGeo = new THREE.IcosahedronGeometry(0.14, 0);
+  const headMat = new THREE.MeshLambertMaterial({ color: col.clone().lerp(new THREE.Color(0xffffff), 0.2), flatShading: true });
+  const head = new THREE.Mesh(headGeo, headMat);
+  head.position.y = 0.7;
+  head.castShadow = true;
+  group.add(head);
+
+  // Eyes (two small dark spheres)
+  const eyeGeo = new THREE.SphereGeometry(0.025, 3, 2);
+  const eyeMat = new THREE.MeshBasicMaterial({ color: 0x1a1a1a });
+  const eyeL = new THREE.Mesh(eyeGeo, eyeMat);
+  eyeL.position.set(-0.05, 0.72, 0.12);
+  group.add(eyeL);
+  const eyeR = new THREE.Mesh(eyeGeo, eyeMat);
+  eyeR.position.set(0.05, 0.72, 0.12);
+  group.add(eyeR);
+
+  // Platform
+  const platGeo = new THREE.CylinderGeometry(0.25, 0.25, 0.06, 6);
+  const platMat = new THREE.MeshLambertMaterial({ color: COLORS.stone, flatShading: true });
+  const plat = new THREE.Mesh(platGeo, platMat);
+  plat.position.y = 0.04;
+  plat.receiveShadow = true;
+  group.add(plat);
+
+  // Aura (invisible by default, lights up when active)
+  const auraGeo = new THREE.RingGeometry(0.22, 0.35, 6);
+  const auraMat = new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0, side: THREE.DoubleSide });
+  const aura = new THREE.Mesh(auraGeo, auraMat);
+  aura.position.y = 0.02;
+  aura.rotation.x = -Math.PI / 2;
+  group.add(aura);
+  group.userData.aura = aura;
+  group.userData.auraMat = auraMat;
+  group.userData.baseColor = col;
+
+  return group;
+}
+
+function createEnvelope(isResult) {
+  const geo = new THREE.DodecahedronGeometry(0.1, 0);
+  const color = isResult ? COLORS.envelopeResult : COLORS.envelopeRequest;
+  const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.9 });
+  const mesh = new THREE.Mesh(geo, mat);
+
+  // Glow
+  const glowGeo = new THREE.DodecahedronGeometry(0.16, 0);
+  const glowMat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.25 });
+  const glow = new THREE.Mesh(glowGeo, glowMat);
+  mesh.add(glow);
+
+  // Trail (point light)
+  const light = new THREE.PointLight(color, 0.5, 3);
+  mesh.add(light);
+
+  return mesh;
+}
+
+// ============================================================
+// Tool call 3D icons
+// ============================================================
+
+function createToolMesh() {
+  const geo = new THREE.OctahedronGeometry(0.13, 0);
+  const mat = new THREE.MeshBasicMaterial({
+    color: 0xFFD060,
+    transparent: true,
+    opacity: 0.95,
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+
+  // Outer glow
+  const glowGeo = new THREE.OctahedronGeometry(0.2, 0);
+  const glowMat = new THREE.MeshBasicMaterial({
+    color: COLORS.envelopeRequest,
+    transparent: true,
+    opacity: 0.2,
+  });
+  mesh.add(new THREE.Mesh(glowGeo, glowMat));
+
+  // Point light for local illumination
+  mesh.add(new THREE.PointLight(0xFFD060, 0.6, 3));
+
+  return mesh;
+}
+
+const TOOL_BASE_Y = 0.95;
+const TOOL_STACK_GAP = 0.25;
+
+function addToolIcon(agentId, callId) {
+  const obj = world.agentObjects[agentId];
+  if (!obj) return;
+  if (!world.activeTools.has(agentId)) world.activeTools.set(agentId, new Map());
+  const agentTools = world.activeTools.get(agentId);
+
+  const slot = agentTools.size;
+  const mesh = createToolMesh();
+  mesh.position.y = TOOL_BASE_Y + slot * TOOL_STACK_GAP;
+  obj.mesh.add(mesh);
+  agentTools.set(callId, { mesh, slot });
+}
+
+function removeToolIcon(agentId, callId) {
+  const agentTools = world.activeTools.get(agentId);
+  if (!agentTools) return;
+  const entry = agentTools.get(callId);
+  if (!entry) return;
+
+  const obj = world.agentObjects[agentId];
+  if (obj) obj.mesh.remove(entry.mesh);
+  agentTools.delete(callId);
+
+  // Restack remaining tools to close gaps
+  let slot = 0;
+  for (const [, tool] of agentTools) {
+    tool.slot = slot;
+    tool.mesh.position.y = TOOL_BASE_Y + slot * TOOL_STACK_GAP;
+    slot++;
+  }
+}
+
+// ============================================================
+// Label system (CSS2DObject — handled by CSS2DRenderer)
+// ============================================================
+
+function addLabel(parent, text, yOffset = 0, cssClass = 'label') {
+  const el = document.createElement('div');
+  el.className = cssClass;
+  el.textContent = text;
+  const labelObj = new CSS2DObject(el);
+  labelObj.position.set(0, yOffset, 0);
+  labelObj.center.set(0.5, 0); // center horizontally, anchor at bottom
+  parent.add(labelObj);
+  return labelObj;
+}
+
+// ============================================================
+// World state
+// ============================================================
+
+const world = {
+  islands: {},    // id -> { group, tower, agents: {} }
+  bridges: [],    // { mesh, from, to }
+  envelopes: [],  // { mesh, path, t, speed, onComplete }
+  agentObjects: {},  // agentId -> { mesh, island, worldPos }
+  popups: [],     // { el, startTime, duration }
+  bubbles: [],    // { el, startTime, duration }
+  activeAgents: new Set(),
+  activeTools: new Map(),  // agentId -> Map<callId, { mesh, slot }>
+  time: 0,
+};
+
+function getAgentWorldPos(agentId) {
+  const obj = world.agentObjects[agentId];
+  if (!obj) return new THREE.Vector3();
+  const v = new THREE.Vector3();
+  obj.mesh.getWorldPosition(v);
+  return v;
+}
+
+function getIslandPos(islandId) {
+  const island = world.islands[islandId];
+  if (!island) return new THREE.Vector3();
+  return island.group.position.clone();
+}
+
+// ============================================================
+// Bridge builder
+// ============================================================
+
+function createBridge(fromPos, toPos) {
+  const mid = fromPos.clone().add(toPos).multiplyScalar(0.5);
+  mid.y += 1.5;
+
+  const curve = new THREE.QuadraticBezierCurve3(fromPos.clone().setY(0.5), mid, toPos.clone().setY(0.5));
+  const geo = new THREE.TubeGeometry(curve, 24, 0.025, 4, false);
+  const mat = new THREE.MeshBasicMaterial({ color: COLORS.envelopeRequest, transparent: true, opacity: 0.35 });
+  const mesh = new THREE.Mesh(geo, mat);
+
+  // Energy dots along bridge
+  const dotGroup = new THREE.Group();
+  for (let i = 0; i < 8; i++) {
+    const dotGeo = new THREE.SphereGeometry(0.03, 3, 2);
+    const dotMat = new THREE.MeshBasicMaterial({ color: COLORS.envelopeRequest, transparent: true, opacity: 0.5 });
+    const dot = new THREE.Mesh(dotGeo, dotMat);
+    dotGroup.add(dot);
+    dot.userData.offset = i / 8;
+    dot.userData.curve = curve;
+  }
+
+  return { mesh, dotGroup, curve, mat };
+}
+
+// ============================================================
+// Envelope animation
+// ============================================================
+
+function launchEnvelope(fromId, toId, isResult, onComplete) {
+  const fromAgent = world.agentObjects[fromId];
+  const toAgent = world.agentObjects[toId];
+  if (!fromAgent || !toAgent) return;
+
+  const fromPos = getAgentWorldPos(fromId);
+  const toPos = getAgentWorldPos(toId);
+
+  // Check if same island (local delegation)
+  const sameIsland = fromAgent.island === toAgent.island;
+
+  let path;
+  if (sameIsland) {
+    // Short arc within island
+    const mid = fromPos.clone().add(toPos).multiplyScalar(0.5);
+    mid.y += 1.0;
+    path = new THREE.QuadraticBezierCurve3(fromPos, mid, toPos);
+  } else {
+    // Arc through hub towers — via the bridges
+    const hubFrom = getIslandPos(fromAgent.island);
+    const hubTo = getIslandPos(toAgent.island);
+    hubFrom.y += 1.8;
+    hubTo.y += 1.8;
+    const midPoint = hubFrom.clone().add(hubTo).multiplyScalar(0.5);
+    midPoint.y += 2.5;
+    // Use CubicBezierCurve for smoother cross-island path
+    path = new THREE.CubicBezierCurve3(
+      fromPos.clone().setY(fromPos.y + 0.5),
+      hubFrom,
+      hubTo,
+      toPos.clone().setY(toPos.y + 0.5)
+    );
+  }
+
+  const envelope = createEnvelope(isResult);
+  scene.add(envelope);
+
+  const speed = sameIsland ? 1.8 : 1.0;
+  world.envelopes.push({ mesh: envelope, path, t: 0, speed, onComplete });
+}
+
+// ============================================================
+// Agent activation effects
+// ============================================================
+
+function activateAgent(agentId) {
+  const obj = world.agentObjects[agentId];
+  if (!obj) return;
+  world.activeAgents.add(agentId);
+}
+
+function deactivateAgent(agentId) {
+  world.activeAgents.delete(agentId);
+}
+
+// ============================================================
+// Popup system (tool calls / results shown near agents)
+// ============================================================
+
+function showPopup(agentId, text, isResult = false, duration = 2500) {
+  const el = document.createElement('div');
+  el.className = 'tool-popup' + (isResult ? ' result' : '');
+  el.textContent = text;
+  document.body.appendChild(el);
+
+  const obj = world.agentObjects[agentId];
+  if (!obj) return;
+
+  world.popups.push({ el, agentId, startTime: performance.now(), duration });
+}
+
+function showSpeechBubble(agentId, text, duration = 4000) {
+  const el = document.createElement('div');
+  el.className = 'speech-bubble';
+  el.textContent = text;
+  document.body.appendChild(el);
+
+  world.bubbles.push({ el, agentId, startTime: performance.now(), duration });
+}
+
+function updatePopups() {
+  const now = performance.now();
+  const w2 = innerWidth / 2;
+  const h2 = innerHeight / 2;
+
+  // Popups
+  world.popups = world.popups.filter(p => {
+    const elapsed = now - p.startTime;
+    if (elapsed > p.duration) {
+      p.el.remove();
+      return false;
+    }
+    const obj = world.agentObjects[p.agentId];
+    if (!obj) { p.el.remove(); return false; }
+    const v = new THREE.Vector3();
+    obj.mesh.getWorldPosition(v);
+    v.y += 1.3;
+    v.project(camera);
+    const opacity = elapsed > p.duration - 400 ? (p.duration - elapsed) / 400 : 1;
+    p.el.style.opacity = opacity;
+    p.el.style.transform = `translate(-50%, -100%) translate(${v.x * w2 + w2}px, ${-v.y * h2 + h2}px)`;
+    return true;
+  });
+
+  // Bubbles
+  world.bubbles = world.bubbles.filter(b => {
+    const elapsed = now - b.startTime;
+    if (elapsed > b.duration) {
+      b.el.remove();
+      return false;
+    }
+    const obj = world.agentObjects[b.agentId];
+    if (!obj) { b.el.remove(); return false; }
+    const v = new THREE.Vector3();
+    obj.mesh.getWorldPosition(v);
+    v.y += 1.6;
+    v.project(camera);
+    const opacity = elapsed > b.duration - 500 ? (b.duration - elapsed) / 500 : Math.min(1, elapsed / 300);
+    b.el.style.opacity = opacity;
+    b.el.style.transform = `translate(-50%, -100%) translate(${v.x * w2 + w2}px, ${-v.y * h2 + h2}px)`;
+    return true;
+  });
+}
+
+// ============================================================
+// Event log
+// ============================================================
+
+const logEl = document.getElementById('event-log');
+let logCount = 0;
+
+function logEvent(html) {
+  const ts = new Date().toLocaleTimeString('en-US', { hour12: false, fractionalSecondDigits: 1 });
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.innerHTML = `<span class="log-time">${ts}</span> ${html}`;
+  logEl.appendChild(entry);
+  logEl.scrollTop = logEl.scrollHeight;
+  logCount++;
+  // Keep last 30 entries
+  while (logEl.children.length > 30) logEl.removeChild(logEl.firstChild);
+}
+
+// ============================================================
+// Build world from server init
+// ============================================================
+
+function buildWorld(data) {
+  // Clear existing
+  for (const id in world.islands) {
+    scene.remove(world.islands[id].group);
+  }
+  for (const b of world.bridges) {
+    scene.remove(b.mesh);
+    scene.remove(b.dotGroup);
+  }
+  for (const e of world.envelopes) {
+    scene.remove(e.mesh);
+  }
+  world.islands = {};
+  world.bridges = [];
+  world.envelopes = [];
+  world.agentObjects = {};
+  world.activeAgents.clear();
+  world.activeTools.clear();
+
+  // Create islands
+  for (const isl of data.islands) {
+    const group = createIsland(1.8, isl.color);
+    group.position.set(isl.x, isl.y, isl.z);
+    group.visible = isl.visible;
+    scene.add(group);
+
+    const tower = createHubTower(isl.color);
+    tower.position.y = 0.1;
+    group.add(tower);
+
+    world.islands[isl.id] = { group, tower, data: isl };
+
+    // Island label — attach to tower, positioned above beacon
+    addLabel(tower, isl.label, 2.0, 'label label-island');
+  }
+
+  // Create agents on their islands
+  for (const ag of data.agents) {
+    const island = world.islands[ag.island];
+    if (!island) continue;
+
+    const mesh = createAgent(ag.color);
+
+    // Position agents around hub tower
+    const islandAgents = data.agents.filter(a => a.island === ag.island);
+    const idx = islandAgents.indexOf(ag);
+    const count = islandAgents.length;
+    // Place agents facing toward scene center
+    const islandPos = island.group.position;
+    const toCenter = Math.atan2(-islandPos.x, -islandPos.z);
+    const spread = count > 1 ? Math.PI * 0.6 : 0;
+    const angle = toCenter + (idx - (count - 1) / 2) * (spread / Math.max(1, count - 1));
+    const r = count === 1 ? 0.65 : 0.85;
+    mesh.position.set(Math.cos(angle) * r, 0.1, Math.sin(angle) * r);
+
+    island.group.add(mesh);
+    mesh.visible = island.group.visible;
+
+    world.agentObjects[ag.id] = { mesh, island: ag.island, data: ag };
+
+    // Agent label — above head
+    addLabel(mesh, ag.label, 1.0);
+  }
+
+  // Create bridges
+  for (const br of data.bridges) {
+    const fromIsland = world.islands[br.from];
+    const toIsland = world.islands[br.to];
+    if (!fromIsland || !toIsland) continue;
+
+    const bridge = createBridge(fromIsland.group.position, toIsland.group.position);
+    bridge.mesh.visible = br.visible;
+    bridge.dotGroup.visible = br.visible;
+    scene.add(bridge.mesh);
+    scene.add(bridge.dotGroup);
+
+    world.bridges.push({ ...bridge, from: br.from, to: br.to });
+  }
+}
+
+// ============================================================
+// Reset world for new scenario cycle (keep geometry, reset state)
+// ============================================================
+
+function resetWorld() {
+  // Hide fire island and bridge
+  const fireIsland = world.islands['fire'];
+  if (fireIsland) {
+    fireIsland.group.visible = false;
+    fireIsland.group.scale.set(1, 1, 1);
+    for (const id in world.agentObjects) {
+      if (world.agentObjects[id].island === 'fire') {
+        world.agentObjects[id].mesh.visible = false;
+      }
+    }
+  }
+  // Hide fire bridge
+  for (const b of world.bridges) {
+    if (b.from === 'dispatch' && b.to === 'fire') {
+      b.mesh.visible = false;
+      b.dotGroup.visible = false;
+    }
+  }
+  // Clear envelopes
+  for (const e of world.envelopes) scene.remove(e.mesh);
+  world.envelopes = [];
+  // Clear popups/bubbles
+  world.popups.forEach(p => p.el.remove());
+  world.bubbles.forEach(b => b.el.remove());
+  world.popups = [];
+  world.bubbles = [];
+  world.activeAgents.clear();
+  // Remove all tool meshes
+  for (const [agentId, tools] of world.activeTools) {
+    const obj = world.agentObjects[agentId];
+    if (obj) for (const [, { mesh }] of tools) obj.mesh.remove(mesh);
+  }
+  world.activeTools.clear();
+}
+
+// ============================================================
+// WebSocket event handler
+// ============================================================
+
+function handleEvent(event) {
+  switch (event.type) {
+    case 'init':
+      if (Object.keys(world.islands).length === 0) {
+        buildWorld(event);
+      } else {
+        // Reset state for new cycle without rebuilding
+        resetWorld();
+      }
+      logEvent('<span class="log-complete">System initialized</span>');
+      break;
+
+    case 'reset':
+      // Clear popups and bubbles, keep islands
+      world.popups.forEach(p => p.el.remove());
+      world.bubbles.forEach(b => b.el.remove());
+      world.popups = [];
+      world.bubbles = [];
+      world.activeAgents.clear();
+      logEl.innerHTML = '';
+      break;
+
+    case 'call_incoming':
+      activateAgent('dispatch');
+      showSpeechBubble('dispatch', `911: "${event.description}"`, 5000);
+      logEvent(`<span class="log-call">911 CALL</span> ${event.caller} — ${event.location}`);
+      // Flash dispatch tower
+      pulseIsland('dispatch');
+      break;
+
+    case 'ToolCall':
+      activateAgent(event.agent);
+      if (event.id) addToolIcon(event.agent, event.id);
+      logEvent(`<span class="log-tool">TOOL</span> ${event.agent}.${event.tool}()`);
+      break;
+
+    case 'ToolResult':
+      if (event.callId) removeToolIcon(event.agent, event.callId);
+      logEvent(`<span class="log-tool">  ← </span> ${event.result}`);
+      break;
+
+    case 'DelegationRequest':
+      activateAgent(event.source);
+      activateAgent(event.target);
+      launchEnvelope(event.source, event.target, false);
+      const taskPreview = event.task.length > 60 ? event.task.slice(0, 60) + '...' : event.task;
+      logEvent(`<span class="log-delegation">DELEGATE</span> ${event.source} → ${event.target}`);
+      showSpeechBubble(event.source, `Delegating to ${event.target}...`, 2500);
+      break;
+
+    case 'DelegationResult':
+      launchEnvelope(event.target, event.source, true);
+      deactivateAgent(event.target);
+      const resPreview = event.result.length > 50 ? event.result.slice(0, 50) + '...' : event.result;
+      logEvent(`<span class="log-result">COMPLETE</span> ${event.target} → ${event.source}`);
+      break;
+
+    case 'ModelResponse':
+      showSpeechBubble(event.agent, event.content.length > 80 ? event.content.slice(0, 80) + '...' : event.content, 5000);
+      deactivateAgent(event.agent);
+      logEvent(`<span class="log-complete">RESOLVED</span> ${event.content.slice(0, 60)}...`);
+      break;
+
+    case 'island_appear': {
+      const isl = world.islands[event.island];
+      if (isl) {
+        isl.group.visible = true;
+        isl.group.scale.set(0.01, 0.01, 0.01);
+        isl._appearing = true;
+        // Show agents on this island
+        for (const id in world.agentObjects) {
+          if (world.agentObjects[id].island === event.island) {
+            world.agentObjects[id].mesh.visible = true;
+          }
+        }
+      }
+      logEvent(`<span class="log-fire">CONNECTED</span> ${event.island} island joined the network`);
+      break;
+    }
+
+    case 'bridge_connect': {
+      for (const b of world.bridges) {
+        if (b.from === event.from_island && b.to === event.to_island) {
+          b.mesh.visible = true;
+          b.dotGroup.visible = true;
+          b.mat.opacity = 0;
+          b._fadingIn = true;
+        }
+      }
+      break;
+    }
+
+    case 'scenario_complete':
+      logEvent(`<span class="log-complete">SCENARIO COMPLETE — restarting...</span>`);
+      break;
+  }
+}
+
+function pulseIsland(islandId) {
+  const isl = world.islands[islandId];
+  if (!isl) return;
+  const glow = isl.tower.userData.glow;
+  if (glow) {
+    glow.intensity = 3;
+    isl._pulseDecay = true;
+  }
+}
+
+// ============================================================
+// Animation loop
+// ============================================================
+
+const clock = new THREE.Clock();
+
+function animate() {
+  requestAnimationFrame(animate);
+  const dt = clock.getDelta();
+  const elapsed = clock.getElapsedTime();
+
+  controls.update();
+
+  // Island floating bob
+  for (const id in world.islands) {
+    const isl = world.islands[id];
+    if (!isl.group.visible) continue;
+    isl.group.position.y = isl.data.y + Math.sin(elapsed * 0.5 + isl.data.x) * 0.12;
+
+    // Appear animation
+    if (isl._appearing) {
+      const s = isl.group.scale.x;
+      const ns = Math.min(1, s + dt * 1.5);
+      isl.group.scale.set(ns, ns, ns);
+      if (ns >= 1) isl._appearing = false;
+    }
+
+    // Pulse decay
+    if (isl._pulseDecay) {
+      const glow = isl.tower.userData.glow;
+      glow.intensity = Math.max(0.6, glow.intensity - dt * 3);
+      if (glow.intensity <= 0.6) isl._pulseDecay = false;
+    }
+
+    // Ring rotation
+    const ring = isl.tower.userData.ring;
+    if (ring) ring.rotation.z += dt * 0.3;
+  }
+
+  // Agent animations
+  for (const id in world.agentObjects) {
+    const obj = world.agentObjects[id];
+    if (!obj.mesh.visible) continue;
+
+    const isActive = world.activeAgents.has(id);
+    const auraMat = obj.mesh.userData.auraMat;
+
+    // Idle bob
+    obj.mesh.children[1].position.y = 0.7 + Math.sin(elapsed * 2 + id.charCodeAt(0)) * 0.02;
+
+    // Active: pulse aura + slight vibration
+    if (isActive) {
+      auraMat.opacity = 0.3 + Math.sin(elapsed * 4) * 0.15;
+      obj.mesh.position.x += (Math.random() - 0.5) * 0.003;
+      obj.mesh.position.z += (Math.random() - 0.5) * 0.003;
+    } else {
+      auraMat.opacity = Math.max(0, auraMat.opacity - dt * 2);
+    }
+  }
+
+  // Active tool icon animation
+  for (const [, agentTools] of world.activeTools) {
+    for (const [, { mesh }] of agentTools) {
+      mesh.rotation.y += dt * 3;
+      mesh.rotation.x += dt * 1.5;
+      // Gentle bob
+      mesh.position.y = mesh.position.y + Math.sin(elapsed * 3) * 0.001;
+    }
+  }
+
+  // Envelope movement
+  world.envelopes = world.envelopes.filter(env => {
+    env.t += dt * env.speed;
+    if (env.t >= 1) {
+      scene.remove(env.mesh);
+      if (env.onComplete) env.onComplete();
+      return false;
+    }
+    const pos = env.path.getPoint(env.t);
+    env.mesh.position.copy(pos);
+    env.mesh.rotation.x += dt * 3;
+    env.mesh.rotation.y += dt * 2;
+    return true;
+  });
+
+  // Bridge energy dots
+  for (const b of world.bridges) {
+    if (!b.dotGroup.visible) continue;
+    for (const dot of b.dotGroup.children) {
+      const t = (dot.userData.offset + elapsed * 0.15) % 1;
+      const pos = dot.userData.curve.getPoint(t);
+      dot.position.copy(pos);
+      dot.material.opacity = 0.3 + Math.sin(t * Math.PI) * 0.3;
+    }
+    // Bridge fade in
+    if (b._fadingIn) {
+      b.mat.opacity = Math.min(0.35, b.mat.opacity + dt * 0.5);
+      if (b.mat.opacity >= 0.35) b._fadingIn = false;
+    }
+  }
+
+  updatePopups();
+  renderer.render(scene, camera);
+  labelRenderer.render(scene, camera);
+}
+
+// ============================================================
+// WebSocket connection
+// ============================================================
+
+function connectWebSocket() {
+  const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  const url = `${protocol}//${location.host}/ws`;
+  console.log('WS connecting to', url);
+  const ws = new WebSocket(url);
+
+  ws.onopen = () => console.log('WS connected');
+
+  ws.onmessage = (msg) => {
+    try {
+      const event = JSON.parse(msg.data);
+      console.log('WS event:', event.type);
+      handleEvent(event);
+    } catch (e) {
+      console.error('Bad event:', e);
+    }
+  };
+
+  ws.onclose = () => {
+    console.log('WebSocket closed, reconnecting in 2s...');
+    setTimeout(connectWebSocket, 2000);
+  };
+
+  ws.onerror = (e) => { console.error('WS error', e); ws.close(); };
+}
+
+// ============================================================
+// Init
+// ============================================================
+
+animate();
+connectWebSocket();
+
+</script>
+</body>
+</html>

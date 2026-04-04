@@ -15,6 +15,18 @@ Usage::
 """
 
 # Convenience
+# Events — re-exported from framework core for backward compatibility
+from autogen.beta.events.lifecycle import (
+    AggregationCompleted,
+    CompactionCompleted,
+    ObserverCompleted,
+    ObserverStarted,
+    TaskProgress,
+    TaskRequest,
+    TaskResult,
+    UnknownEvent,
+)
+
 from .convenience import Network
 
 # Events — network-specific
@@ -29,23 +41,11 @@ from .events import (
     TopicUnsubscription,
 )
 
-# Events — re-exported from framework core for backward compatibility
-from autogen.beta.events.lifecycle import (
-    AggregationCompleted,
-    CompactionCompleted,
-    ObserverCompleted,
-    ObserverStarted,
-    TaskProgress,
-    TaskRequest,
-    TaskResult,
-    UnknownEvent,
-)
-
 # Hub
 from .hub import Hub, RegistrationHandle
 
 # Plugins
-from .plugins import RateLimiter, TelemetryPlugin, TopicPlugin
+from .plugins import RateLimiter, TelemetryPlugin, TopicPlugin, WorldPlugin
 
 # Network-specific policies
 from .policies import NetworkPolicy, TopicInboxPolicy, TopicOverflow
@@ -140,6 +140,7 @@ __all__ = (
     "RateLimiter",
     "TelemetryPlugin",
     "TopicPlugin",
+    "WorldPlugin",
     # Policies (network-specific)
     "NetworkPolicy",
     "TopicInboxPolicy",
