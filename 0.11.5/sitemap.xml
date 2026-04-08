@@ -721,6 +721,18 @@
          <lastmod>2026-04-08</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/task_events/TaskCompleted/</loc>
+         <lastmod>2026-04-08</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/task_events/TaskFailed/</loc>
+         <lastmod>2026-04-08</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/task_events/TaskStarted/</loc>
+         <lastmod>2026-04-08</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/tool_events/BuiltinToolCallEvent/</loc>
          <lastmod>2026-04-08</lastmod>
     </url>
@@ -818,6 +830,14 @@
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/middleware/builtin/tools/approval/approval_required/</loc>
+         <lastmod>2026-04-08</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/observer/Observer/</loc>
+         <lastmod>2026-04-08</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/observer/observer_func/</loc>
          <lastmod>2026-04-08</lastmod>
     </url>
     <url>
@@ -938,6 +958,18 @@
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/shell/tool/LocalShellTool/</loc>
+         <lastmod>2026-04-08</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/subagents/depth_limiter/depth_limiter/</loc>
+         <lastmod>2026-04-08</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/subagents/persistent_stream/persistent_stream/</loc>
+         <lastmod>2026-04-08</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/subagents/subagent_tool/subagent_tool/</loc>
          <lastmod>2026-04-08</lastmod>
     </url>
     <url>
@@ -1981,11 +2013,19 @@
          <lastmod>2026-04-08</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/beta/task_delegation/</loc>
+         <lastmod>2026-04-08</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/beta/telemetry/</loc>
          <lastmod>2026-04-08</lastmod>
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/beta/testing/</loc>
+         <lastmod>2026-04-08</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/beta/advanced/observers/</loc>
          <lastmod>2026-04-08</lastmod>
     </url>
     <url>
