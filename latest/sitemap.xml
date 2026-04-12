@@ -13,6 +13,14 @@
          <lastmod>2026-04-12</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/AgentDescriptionGuard/</loc>
+         <lastmod>2026-04-12</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/AgentEligibilityPolicy/</loc>
+         <lastmod>2026-04-12</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/AgentNameConflictError/</loc>
          <lastmod>2026-04-12</lastmod>
     </url>
@@ -62,6 +70,10 @@
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/OpenAIWrapper/</loc>
+         <lastmod>2026-04-12</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/SelectionContext/</loc>
          <lastmod>2026-04-12</lastmod>
     </url>
     <url>
