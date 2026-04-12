@@ -985,6 +985,14 @@
          <lastmod>2026-04-12</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/builtin/skills/Skill/</loc>
+         <lastmod>2026-04-12</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/builtin/skills/SkillsTool/</loc>
+         <lastmod>2026-04-12</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/builtin/web_fetch/WebFetchTool/</loc>
          <lastmod>2026-04-12</lastmod>
     </url>
@@ -1021,6 +1029,22 @@
          <lastmod>2026-04-12</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/local_skills/loader/parse_frontmatter/</loc>
+         <lastmod>2026-04-12</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/local_skills/tool/LocalSkillsTool/</loc>
+         <lastmod>2026-04-12</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/runtime/local/LocalRuntime/</loc>
+         <lastmod>2026-04-12</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/runtime/protocol/SkillRuntime/</loc>
+         <lastmod>2026-04-12</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/schemas/ToolSchema/</loc>
          <lastmod>2026-04-12</lastmod>
     </url>
@@ -1034,6 +1058,10 @@
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/shell/tool/LocalShellTool/</loc>
+         <lastmod>2026-04-12</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/skill_types/SkillMetadata/</loc>
          <lastmod>2026-04-12</lastmod>
     </url>
     <url>
