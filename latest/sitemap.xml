@@ -1081,6 +1081,14 @@
          <lastmod>2026-04-13</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/toolkits/skill_search/config/SkillsClientConfig/</loc>
+         <lastmod>2026-04-13</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/toolkits/skill_search/toolset/SkillSearchToolset/</loc>
+         <lastmod>2026-04-13</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/cache/AbstractCache/</loc>
          <lastmod>2026-04-13</lastmod>
     </url>
