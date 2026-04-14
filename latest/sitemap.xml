@@ -725,18 +725,6 @@
          <lastmod>2026-04-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/alert/HaltEvent/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/alert/ObserverAlert/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/alert/Severity/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/base/BaseEvent/</loc>
          <lastmod>2026-04-14</lastmod>
     </url>
@@ -805,35 +793,11 @@
          <lastmod>2026-04-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/lifecycle/AggregationCompleted/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/lifecycle/CompactionCompleted/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/lifecycle/ObserverCompleted/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/lifecycle/ObserverStarted/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/lifecycle/UnknownEvent/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/task_events/TaskCompleted/</loc>
          <lastmod>2026-04-14</lastmod>
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/task_events/TaskFailed/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/task_events/TaskProgress/</loc>
          <lastmod>2026-04-14</lastmod>
     </url>
     <url>
@@ -913,50 +877,6 @@
          <lastmod>2026-04-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/knowledge/ChangeSubscription/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/knowledge/DefaultBootstrap/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/knowledge/DiskKnowledgeStore/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/knowledge/EventLogWriter/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/knowledge/KnowledgeStore/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/knowledge/LockedKnowledgeStore/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/knowledge/MemoryKnowledgeStore/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/knowledge/NoopChangeSubscription/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/knowledge/RedisKnowledgeStore/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/knowledge/SqliteKnowledgeStore/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/knowledge/StoreBootstrap/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/middleware/base/BaseMiddleware/</loc>
          <lastmod>2026-04-14</lastmod>
     </url>
@@ -989,27 +909,11 @@
          <lastmod>2026-04-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/observer/BaseObserver/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/observer/Observer/</loc>
          <lastmod>2026-04-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/observer/StreamObserver/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/observer/observer_func/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/observers/loop_detector/LoopDetector/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/observers/token_monitor/TokenMonitor/</loc>
          <lastmod>2026-04-14</lastmod>
     </url>
     <url>
@@ -1170,46 +1074,6 @@
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/toolkits/skills/skill_search/toolkit/SkillSearchToolkit/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/watch/AllOf/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/watch/AnyOf/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/watch/BatchWatch/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/watch/CronWatch/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/watch/DelayWatch/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/watch/EventWatch/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/watch/IntervalWatch/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/watch/Sequence/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/watch/Watch/</loc>
-         <lastmod>2026-04-14</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/watch/WindowWatch/</loc>
          <lastmod>2026-04-14</lastmod>
     </url>
     <url>
