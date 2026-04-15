@@ -633,6 +633,10 @@
          <lastmod>2026-04-15</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/ag_ui/stream/AGUIStream/</loc>
+         <lastmod>2026-04-15</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/agent/Agent/</loc>
          <lastmod>2026-04-15</lastmod>
     </url>
@@ -2134,6 +2138,18 @@
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/beta/advanced/stream/</loc>
+         <lastmod>2026-04-15</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/beta/ag-ui/</loc>
+         <lastmod>2026-04-15</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/beta/ag-ui/backend-deepdive/</loc>
+         <lastmod>2026-04-15</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/beta/ag-ui/copilotkit-quickstart/</loc>
          <lastmod>2026-04-15</lastmod>
     </url>
     <url>
