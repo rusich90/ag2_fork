@@ -1049,6 +1049,26 @@
          <lastmod>2026-04-16</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/skills/local_skills/toolkit/SkillsToolkit/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/skills/runtime/local/LocalRuntime/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/skills/runtime/protocol/SkillRuntime/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/skills/skill_search/config/SkillsClientConfig/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/skills/skill_search/toolkit/SkillSearchToolkit/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/subagents/depth_limiter/depth_limiter/</loc>
          <lastmod>2026-04-16</lastmod>
     </url>
@@ -1062,26 +1082,6 @@
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/toolkits/filesystem/FilesystemToolkit/</loc>
-         <lastmod>2026-04-16</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/toolkits/skills/local_skills/toolkit/SkillsToolkit/</loc>
-         <lastmod>2026-04-16</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/toolkits/skills/runtime/local/LocalRuntime/</loc>
-         <lastmod>2026-04-16</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/toolkits/skills/runtime/protocol/SkillRuntime/</loc>
-         <lastmod>2026-04-16</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/toolkits/skills/skill_search/config/SkillsClientConfig/</loc>
-         <lastmod>2026-04-16</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/toolkits/skills/skill_search/toolkit/SkillSearchToolkit/</loc>
          <lastmod>2026-04-16</lastmod>
     </url>
     <url>
