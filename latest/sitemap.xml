@@ -745,10 +745,6 @@
          <lastmod>2026-04-17</lastmod>
     </url>
     <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/input_events/AudioUrlInput/</loc>
-         <lastmod>2026-04-17</lastmod>
-    </url>
-    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/input_events/BinaryInput/</loc>
          <lastmod>2026-04-17</lastmod>
     </url>
@@ -761,19 +757,11 @@
          <lastmod>2026-04-17</lastmod>
     </url>
     <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/input_events/DocumentUrlInput/</loc>
-         <lastmod>2026-04-17</lastmod>
-    </url>
-    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/input_events/FileIdInput/</loc>
          <lastmod>2026-04-17</lastmod>
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/input_events/ImageInput/</loc>
-         <lastmod>2026-04-17</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/input_events/ImageUrlInput/</loc>
          <lastmod>2026-04-17</lastmod>
     </url>
     <url>
@@ -789,11 +777,11 @@
          <lastmod>2026-04-17</lastmod>
     </url>
     <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/input_events/VideoInput/</loc>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/input_events/UrlInput/</loc>
          <lastmod>2026-04-17</lastmod>
     </url>
     <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/input_events/VideoUrlInput/</loc>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/events/input_events/VideoInput/</loc>
          <lastmod>2026-04-17</lastmod>
     </url>
     <url>
