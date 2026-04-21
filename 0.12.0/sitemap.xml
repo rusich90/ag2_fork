@@ -945,6 +945,14 @@
          <lastmod>2026-04-21</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/testing/TestConfig/</loc>
+         <lastmod>2026-04-21</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/testing/TrackingConfig/</loc>
+         <lastmod>2026-04-21</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/textual/TUIAgent/</loc>
          <lastmod>2026-04-21</lastmod>
     </url>
@@ -1026,14 +1034,6 @@
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/search/duckduckgo/DuckDuckSearchTool/</loc>
-         <lastmod>2026-04-21</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/search/duckduckgo/SearchResponse/</loc>
-         <lastmod>2026-04-21</lastmod>
-    </url>
-    <url>
-         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/search/duckduckgo/SearchResult/</loc>
          <lastmod>2026-04-21</lastmod>
     </url>
     <url>
