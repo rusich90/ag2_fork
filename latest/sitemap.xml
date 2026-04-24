@@ -881,6 +881,22 @@
          <lastmod>2026-04-24</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/files/api/FilesAPI/</loc>
+         <lastmod>2026-04-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/files/types/FileContent/</loc>
+         <lastmod>2026-04-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/files/types/FileProvider/</loc>
+         <lastmod>2026-04-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/files/types/UploadedFile/</loc>
+         <lastmod>2026-04-24</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/middleware/base/BaseMiddleware/</loc>
          <lastmod>2026-04-24</lastmod>
     </url>
@@ -2150,6 +2166,10 @@
     </url>
     <url>
          <loc>https://docs.ag2.ai/latest/docs/beta/testing/</loc>
+         <lastmod>2026-04-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.ag2.ai/latest/docs/beta/advanced/files/</loc>
          <lastmod>2026-04-24</lastmod>
     </url>
     <url>
