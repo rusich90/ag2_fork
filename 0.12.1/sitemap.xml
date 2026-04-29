@@ -1197,6 +1197,10 @@
          <lastmod>2026-04-29</lastmod>
     </url>
     <url>
+         <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/search/perplexity/PerplexitySearchTool/</loc>
+         <lastmod>2026-04-29</lastmod>
+    </url>
+    <url>
          <loc>https://docs.ag2.ai/latest/docs/api-reference/autogen/beta/tools/search/tavily/TavilySearchTool/</loc>
          <lastmod>2026-04-29</lastmod>
     </url>
